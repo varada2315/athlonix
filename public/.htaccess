@@ -1,0 +1,60 @@
+# Apache Configuration for Athlonixx Fit Club SPA
+
+# Prevent directory browsing
+Options -Indexes
+
+# Set the default index page
+DirectoryIndex index.html
+
+# Rewrite engine for Single Page Application routing (so refreshing on sub-paths doesn't result in a 404)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+    
+    # Do not rewrite if file or directory exists
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+    
+    # Redirect all other requests to index.html
+    RewriteRule ^ index.html [L]
+</IfModule>
+
+# Gzip/Deflate compression for performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/plain
+    AddOutputFilterByType DEFLATE text/html
+    AddOutputFilterByType DEFLATE text/xml
+    AddOutputFilterByType DEFLATE text/css
+    AddOutputFilterByType DEFLATE application/xml
+    AddOutputFilterByType DEFLATE application/xhtml+xml
+    AddOutputFilterByType DEFLATE application/rss+xml
+    AddOutputFilterByType DEFLATE application/javascript
+    AddOutputFilterByType DEFLATE application/x-javascript
+    AddOutputFilterByType DEFLATE application/json
+    AddOutputFilterByType DEFLATE image/svg+xml
+</IfModule>
+
+# Leverage browser caching
+<IfModule mod_expires.c>
+    ExpiresEngine On
+    
+    # Default cache duration (1 month)
+    ExpiresDefault "access plus 1 month"
+    
+    # CSS and JS (Vite assets have unique hashes, so we cache them long-term)
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
+    
+    # Media and images
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType video/mp4 "access plus 1 year"
+    
+    # HTML (always revalidate to pick up changes immediately)
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
