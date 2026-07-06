@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
-import { 
-  Menu, 
-  X, 
-  Star, 
-  User, 
-  Check, 
+import { TermsAndConditions, PrivacyPolicy, CancellationPolicy, RefundPolicy } from './Policies';
+import {
+  Menu,
+  X,
+  Star,
+  User,
+  Check,
   Activity,
   Award,
   ShieldCheck,
@@ -25,15 +26,15 @@ import {
 import heroBgVideo from './assets/hero_bg.mp4';
 
 const InstagramIcon = ({ size = 24, style = {}, className = "" }) => (
-  <svg 
-    xmlns="http://www.w3.org/2000/svg" 
-    width={size} 
-    height={size} 
-    viewBox="0 0 24 24" 
-    fill="none" 
-    stroke="currentColor" 
-    strokeWidth="2" 
-    strokeLinecap="round" 
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
     strokeLinejoin="round"
     style={style}
     className={className}
@@ -41,6 +42,35 @@ const InstagramIcon = ({ size = 24, style = {}, className = "" }) => (
     <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
     <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+  </svg>
+);
+
+const WhatsAppBrandIcon = ({ size = 32, className = "" }) => (
+  <img
+    src="/whatsapp_logo.png"
+    alt="WhatsApp"
+    style={{
+      width: `${size}px`,
+      height: `${size}px`,
+      objectFit: 'contain',
+      display: 'block'
+    }}
+    className={className}
+  />
+);
+
+const InstagramBrandIcon = ({ size = 28, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="url(#ig-grad-new)" className={className}>
+    <defs>
+      <linearGradient id="ig-grad-new" x1="0%" y1="100%" x2="100%" y2="0%">
+        <stop offset="0%" stopColor="#f09433" />
+        <stop offset="25%" stopColor="#e6683c" />
+        <stop offset="50%" stopColor="#dc2743" />
+        <stop offset="75%" stopColor="#cc2366" />
+        <stop offset="100%" stopColor="#bc1888" />
+      </linearGradient>
+    </defs>
+    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
   </svg>
 );
 
@@ -52,14 +82,14 @@ const CountUp = ({ to, suffix = "", duration = 2 }) => {
 
   useEffect(() => {
     if (!isInView) return;
-    
+
     let start = 0;
     const end = parseInt(to);
     if (start === end) return;
 
     let totalMiliseconds = duration * 1000;
     let incrementTime = Math.max(Math.floor(totalMiliseconds / end), 20);
-    
+
     let timer = setInterval(() => {
       start += Math.ceil(end / 50); // Increment step
       if (start >= end) {
@@ -214,7 +244,7 @@ const ParticleBackground = () => {
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
+
       particles.forEach(p => {
         p.x += p.vx;
         p.y += p.vy;
@@ -244,7 +274,7 @@ const ParticleBackground = () => {
 // 3D Carousel Cylinder Wheel rendering 7 slide pairs
 const Carousel3D = ({ isGrayscale = false }) => {
   const containerAngles = [90, 120, 150, 180, 0, 30, 60];
-  
+
   return (
     <div className={`carousel-3d-wheel ${isGrayscale ? 'grayscale' : ''}`}>
       {containerAngles.map((angle, idx) => {
@@ -252,23 +282,23 @@ const Carousel3D = ({ isGrayscale = false }) => {
         // Back slide is idx + 8 (8 to 14)
         const frontSlide = slidesData[idx];
         const backSlide = slidesData[idx + 7];
-        
+
         return (
-          <div 
+          <div
             key={idx}
             className="carousel-3d-container"
             style={{ transform: `rotateY(${angle}deg)` }}
           >
             {/* Back Card (Before side) - placed on the left side of width */}
-            <div 
+            <div
               className="carousel-card card-back"
               style={{ transform: `rotateY(90deg)` }}
             >
               <img src={isGrayscale ? backSlide.before : backSlide.after} alt="Before Transformation" />
             </div>
-            
+
             {/* Front Card (After side) - placed on the right side of width */}
-            <div 
+            <div
               className="carousel-card card-front"
               style={{ transform: `rotateY(-90deg)` }}
             >
@@ -284,7 +314,7 @@ const Carousel3D = ({ isGrayscale = false }) => {
 // Infinite Scrolling Marquee/Ticker Ribbon component
 const Marquee = ({ text }) => {
   const items = Array(8).fill(text);
-  
+
   return (
     <div className="instagram-ticker">
       <div className="ticker-track">
@@ -321,11 +351,13 @@ const getBenefitIcon = (index) => {
 
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
   const [activeFaq, setActiveFaq] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [activeMvTab, setActiveMvTab] = useState('mission');
 
   const servicesRef = useRef(null);
   const cardsContainerRef = useRef(null);
@@ -410,7 +442,7 @@ function App() {
 
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 992);
+      setIsMobile(window.innerWidth < 1024);
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
@@ -429,10 +461,10 @@ function App() {
     };
 
     calculateRange();
-    
+
     window.addEventListener('load', calculateRange);
     window.addEventListener('resize', calculateRange);
-    
+
     const timer = setTimeout(calculateRange, 500);
 
     return () => {
@@ -442,7 +474,7 @@ function App() {
     };
   }, []);
 
-  const x = useTransform(scrollYProgress, [0, 1], [0, isMobile ? 0 : -scrollRange]);
+  const x = useTransform(scrollYProgress, [0, 1], [0, -scrollRange]);
 
   const { scrollY } = useScroll();
   const heroY = useTransform(scrollY, [0, 800], [0, 400]);
@@ -500,10 +532,18 @@ function App() {
   // Services Data
   const services = [
     {
+      title: "Hybrid Training Program",
+      desc: "Hybrid functional training programs focused on building endurance, strength, and athletic performance.",
+      level: "Intermediate – Advanced",
+      duration: "120 Days",
+      tags: ["Foundation Training", "Advanced Hybrid Training"],
+      img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438"
+    },
+    {
       title: "Transformation Programs",
       desc: "Elevate your fitness with our diverse and engaging training options.",
       level: "All Levels",
-      duration: "90 Days+",
+      duration: "100 Days",
       tags: ["90-Day Transformation", "Fat Loss Accelerator", "Strength & Muscle Building"],
       img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd"
     },
@@ -514,22 +554,6 @@ function App() {
       duration: "Custom",
       tags: ["Injury Assessment", "Post-Injury Rehab", "Post-Surgery Rehab", "Posture Correction"],
       img: "https://images.unsplash.com/photo-1576091160550-2173dba999ef"
-    },
-    {
-      title: "Sports Rehabilitation",
-      desc: "Elite athletic performance rebuild protocols and return-to-sport programs.",
-      level: "Intermediate – Elite",
-      duration: "Custom",
-      tags: ["ACL Return-to-Play", "Athletic Rebuild", "Running Injury Recovery", "Overhead Athlete Rehab"],
-      img: "https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=800&q=80"
-    },
-    {
-      title: "HYROX Performance",
-      desc: "Official conditioning programs focused on foundation and pro performance metrics.",
-      level: "Intermediate – Advanced",
-      duration: "120 Days",
-      tags: ["HYROX Foundation", "HYROX Pro 120-Day Performance"],
-      img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438"
     }
   ];
 
@@ -544,7 +568,7 @@ function App() {
     {
       step: "STEP 2.",
       title: "Program Selection",
-      desc: "Pick from Transformation, Advanced Physiotherapy, Sports Rehab, or HYROX tracks.",
+      desc: "Pick from Transformation, Advanced Physiotherapy, or Hybrid Training tracks.",
       img: "https://framerusercontent.com/images/ePDhTaHkj2vANjIxabafTqp1g.jpg"
     },
     {
@@ -564,46 +588,46 @@ function App() {
   // Testimonials Data
   const testimonials = [
     {
-      name: "Sullivan Mitchell",
-      role: "Marketing Director",
+      name: "Nashvin Pinto",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/Ah6vtDjqQV4pmxuHjEOGW2rX0.jpg?width=458&height=458",
-      text: "Engaging with this team was effortless from start to end. Their proficiency and meticulous approach greatly enhanced our project. I couldn’t be happier with the final product!"
+      avatar: "https://ui-avatars.com/api/?name=Nashvin+Pinto&background=0D8ABC&color=fff&size=128&bold=true",
+      text: "The gym is really spacious with great equipment and ambiance. The powerlifting section is a standout feature, and the team is incredibly supportive in helping you achieve your fitness goals. It's a great place for beginners who want to learn and grow in a positive, motivating environment."
     },
     {
-      name: "James Carter",
-      role: "Chief Technical Officer",
+      name: "Kaushal Sultania",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/xD7WNakfWri7uxndqa2vRJfgiLA.jpg?width=400&height=400",
-      text: "Working with this team was smooth and efficient at every stage. Their skills and commitment to quality had a major impact on our project. I am thrilled with the final results!"
+      avatar: "https://ui-avatars.com/api/?name=Kaushal+Sultania&background=2D6A4F&color=fff&size=128&bold=true",
+      text: "One of the best gyms in the area with high-quality equipment and a spacious workout environment. Every facility is well maintained, and the instructors are knowledgeable and supportive. The gym also offers ample parking for both two-wheelers and four-wheelers, making every visit convenient."
     },
     {
-      name: "Laura Evans",
-      role: "Head of Operations",
+      name: "Gowtham A",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/oGgAZMF0jq3eb456pPCbrdFzqM.jpg?width=400&height=400",
-      text: "Partnering with this team was a breeze from beginning to end. Their knowledge and focus on detail significantly benefited our project. I am extremely happy with the outcome!"
+      avatar: "https://ui-avatars.com/api/?name=Gowtham+A&background=6C3D91&color=fff&size=128&bold=true",
+      text: "Excellent trainers and high-quality equipment. I've been training with Coach Akash and have already seen noticeable improvements in my fitness. I highly recommend this gym to anyone looking for professional guidance."
     },
     {
-      name: "Jody Roberts",
-      role: "Chief Financial Officer",
+      name: "Suman Basavraj",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/5njyZNvahmgwvoTsaHLfZ4B8qd8.jpg?width=400&height=400",
-      text: "From the first meeting, it was clear we were in good hands. They took our vision and turned it into something even better than we had imagined. Highly recommend!"
+      avatar: "https://ui-avatars.com/api/?name=Suman+Basavraj&background=1B4965&color=fff&size=128&bold=true",
+      text: "Athlonixx stands out as a premium fitness club with spacious facilities, top-quality equipment, and an environment built for serious fitness enthusiasts. The coaches are highly professional, knowledgeable, and create personalized training plans. The in-house physiotherapy support is a major advantage that adds exceptional value for both performance and recovery. If you're looking for real results with expert guidance and outstanding facilities, this is the place to be."
     },
     {
-      name: "Emil Foster",
-      role: "Creative Director",
+      name: "Amit Kumar",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/kWNeVz0ozutdRM74uJ35ZzLFLo.jpg?width=400&height=400",
-      text: "Exceptional service and great communication throughout the entire process. They went above and beyond to ensure our project was a complete success."
+      avatar: "https://ui-avatars.com/api/?name=Amit+Kumar&background=E76F51&color=fff&size=128&bold=true",
+      text: "A spacious and well-equipped gym with modern machines and helpful trainers. The environment is clean, motivating, and welcoming. Highly recommended for anyone looking to achieve their fitness goals."
     },
     {
-      name: "Daniella Clarke",
-      role: "Senior Manager",
+      name: "Ritika Dhelia",
+      role: "Member",
       rating: 5,
-      avatar: "https://framerusercontent.com/images/846OQMwPtH71wBgvMsKFYGU69WU.jpg?width=400&height=400",
-      text: "This team truly understands the meaning of partnership. They brought fresh ideas to the table and delivered a final product that exceeded expectations."
+      avatar: "https://ui-avatars.com/api/?name=Ritika+Dhelia&background=D4649A&color=fff&size=128&bold=true",
+      text: "Fantastic gym with top-quality equipment and a positive, motivating atmosphere. It's the perfect place to begin your fitness journey while training in a supportive environment."
     }
   ];
 
@@ -624,11 +648,7 @@ function App() {
       title: "Dietary Guidance & Nutrition",
       desc: "Expert dietary guidance to complement your fitness routine."
     },
-    {
-      emoji: "🧖‍♀️",
-      title: "Access to Basic Recovery Equipment",
-      desc: "Access to sauna, steam room, and massage therapy services."
-    },
+
     {
       emoji: "👨‍💼",
       title: "Dedicated General Trainer Support",
@@ -669,42 +689,41 @@ function App() {
     }
   ];
 
-  // Training Areas Data
   const trainingAreas = [
     {
-      title: "Cardio & Powerlifting Zone",
-      desc: "Treadmills, spin bikes, Olympic platforms",
-      img: "https://images.unsplash.com/photo-1579758629938-03607ccdbaba"
+      title: "Strength Zone",
+      desc: "Heavy-duty racks, benches & free weights for serious gains",
+      img: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd"
     },
     {
-      title: "Skydeck Training",
-      desc: "Open-air workouts with city views",
+      title: "Sledge Zone",
+      desc: "Sled pushes, tire flips & prowler sprints for raw power",
       img: "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61"
     },
     {
-      title: "Group Classes Studio",
-      desc: "Yoga, dance, Zumba & HIIT",
+      title: "Powerlifting Zone",
+      desc: "Olympic platforms, squat racks & deadlift stations",
+      img: "https://images.unsplash.com/photo-1579758629938-03607ccdbaba"
+    },
+    {
+      title: "Cardio Zone",
+      desc: "Treadmills, spin bikes & rowing machines",
+      img: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2"
+    },
+    {
+      title: "Group Session Zone",
+      desc: "CrossFit, Hybrid Functional Mobility",
       img: "https://images.unsplash.com/photo-1517836357463-d25dfeac3438"
     },
     {
-      title: "Physiotherapy & Rehab Zone",
-      desc: "Expert-led recovery support",
-      img: "https://images.unsplash.com/photo-1599058917212-d750089bc07e"
-    },
-    {
-      title: "Functional Training Zone",
-      desc: "Kettlebells, battle ropes & agility drills",
-      img: "https://images.unsplash.com/photo-1518611012118-696072aa579a"
-    },
-    {
-      title: "CrossFit Arena",
-      desc: "High-intensity strength & conditioning",
+      title: "Calisthenics Zone",
+      desc: "Bodyweight strength, mobility, balance & endurance training",
       img: "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b"
     },
     {
-      title: "Personal Training Zone",
-      desc: "1-on-1 expert coaching sessions",
-      img: "https://images.unsplash.com/photo-1549060279-7e168fcee0c2"
+      title: "Physiotherapy & Recovery Zone",
+      desc: "Expert-led recovery support",
+      img: "https://images.unsplash.com/photo-1599058917212-d750089bc07e"
     }
   ];
 
@@ -764,7 +783,7 @@ function App() {
     const handleScroll = () => {
       const scrollPosition = window.scrollY + 200;
       const sections = ['home', 'about', 'services', 'bmi', 'benefits', 'areas', 'testimonials', 'events', 'faq', 'contact'];
-      
+
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -784,6 +803,19 @@ function App() {
 
   const scrollTo = (id) => {
     setIsMobileMenuOpen(false);
+    if (currentPage !== 'home') {
+      setCurrentPage('home');
+      setTimeout(() => {
+        const el = document.getElementById(id);
+        if (el) {
+          window.scrollTo({
+            top: el.offsetTop - 80,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+      return;
+    }
     const el = document.getElementById(id);
     if (el) {
       window.scrollTo({
@@ -799,7 +831,7 @@ function App() {
       <nav className="navbar">
         <div className="nav-container">
           <a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="logo" style={{ display: 'flex', alignItems: 'center' }}>
-            <img src="/logo.png" alt="Athlonixx Fit Club" style={{ height: '64px', width: 'auto', display: 'block' }} />
+            <img src="/logo.png" alt="Athlonixx Fit Club" className="nav-logo-img" />
           </a>
 
           <ul className="nav-links">
@@ -813,11 +845,7 @@ function App() {
             <li><a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo('faq'); }} className={`nav-link ${activeSection === 'faq' ? 'active' : ''}`}>FAQ</a></li>
           </ul>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }} className="nav-btn-wrap">
-            <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="nav-btn" style={{ display: 'inline-block', textAlign: 'center', lineHeight: 'normal' }}>
-              Start Now
-            </a>
-          </div>
+
 
           <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="menu-toggle">
             {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
@@ -827,7 +855,7 @@ function App() {
         {/* Mobile Navigation Dropdown */}
         <AnimatePresence>
           {isMobileMenuOpen && (
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
@@ -844,866 +872,905 @@ function App() {
                 <li><a href="#events" onClick={(e) => { e.preventDefault(); scrollTo('events'); }} className="mobile-nav-link">Events</a></li>
                 <li><a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo('faq'); }} className="mobile-nav-link">FAQ</a></li>
               </ul>
-              <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="nav-btn" style={{ width: '100%', marginTop: '20px', display: 'block', textAlign: 'center' }}>
-                Start Now
-              </a>
+
             </motion.div>
           )}
         </AnimatePresence>
       </nav>
 
-      {/* Hero Section */}
-      <motion.section id="home" className="hero" style={{ y: heroY }}>
-        {/* Relatable background video loop */}
-        <motion.div 
-          initial={{ scale: 1.12, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
-          className="hero-bg-video-wrap"
-        >
-          <video
-            src={heroBgVideo}
-            poster="https://framerusercontent.com/images/tUzXrkM4QWv004jXnKFLmrrShg.jpg"
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="hero-bg-video"
-          />
-        </motion.div>
-        <div className="hero-gradient-overlay"></div>
-        <div className="hero-grid"></div>
-        <div className="hero-gradient-line"></div>
-        <motion.div className="container" style={{ opacity: heroOpacity }}>
-          <div className="hero-inner-layout">
-            {/* Left Column: Text Content */}
-            <div className="hero-left-col">
-              {/* Social Proof (moved to the top) */}
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springHeavy, delay: 0.1 }}
-                className="hero-social-proof-top"
-              >
-                <div className="avatar-stack">
-                  <img src="https://framerusercontent.com/images/TpZ2CrtmA37AVPZojolRnAczbQ8.jpg" alt="Client 1" />
-                  <img src="https://framerusercontent.com/images/GIMRdH8dZSD3uPWu3xwSWnyRJY.jpg" alt="Client 2" />
-                  <img src="https://framerusercontent.com/images/MlufJeWUmaLTDOPjyglgkEbHdQ.jpg" alt="Client 3" />
-                  <img src="https://framerusercontent.com/images/PQ0CdHcvW9qzllrrn2lyBWphgQ.jpg" alt="Client 4" />
-                </div>
-                <div className="social-proof-text-top">
-                  <div className="stars-row">
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <Star size={12} fill="currentColor" />
-                    <span className="rating-num">4.9 / 5</span>
-                  </div>
-                  <span className="clients-count">1500+ Happy Members</span>
-                </div>
-              </motion.div>
-              
-              {/* Main Headline */}
-              <motion.h1
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springHeavy, delay: 0.2 }}
-              >
-                Unleash the <br />
-                <span className="accent-text">Athlete</span> <span className="hollow-text">In You</span>
-              </motion.h1>
-              
-              {/* Sub-headline */}
-              <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springHeavy, delay: 0.3 }}
-                className="hero-desc"
-              >
-                The biggest hybrid gym in Sarjapura.
-              </motion.p>
-              
-              {/* CTA Buttons */}
-              <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ ...springHeavy, delay: 0.4 }}
-                className="hero-ctas"
-              >
-                <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="btn-primary">
-                  Start Now
-                </a>
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-      </motion.section>
-
-      {/* About Us Section */}
-      <section id="about" className="section section-white" ref={trainerRef}>
-        <div className="container">
-          <div className="trainer-grid">
-            <div className="trainer-bio">
-              <motion.span className="section-label" style={{ x: trainerSlideX, opacity: trainerOpacity, display: 'block' }}>
-                (About us!)
-              </motion.span>
-              
-              <motion.h2 className="trainer-title" style={{ x: trainerSlideX, opacity: trainerOpacity }}>
-                ATHLONIXX <br />
-                <span className="hollow-text">FIT CLUB</span>
-              </motion.h2>
-              
-              <motion.p className="about-intro-lead" style={{ y: trainerFadeY, opacity: trainerFadeOpacity }}>
-                ATHLONIXX Fitclub Sarjapur is where elite fitness meets proven performance. We provide modern infrastructure, certified trainers, and goal-driven programs built to transform your strength and stamina.
-              </motion.p>
-
-              <motion.div 
-                className="about-mv-grid" 
-                style={{ y: trainerFadeY, opacity: trainerFadeOpacity }}
-              >
-                <div className="about-mv-card">
-                  <h4>
-                    <Target size={16} style={{ color: 'var(--color-electric-blue)' }} />
-                    Our Mission
-                  </h4>
-                  <p>
-                    To empower individuals to reach peak physical and mental performance through holistic fitness, expert care, and a supportive community.
-                  </p>
-                </div>
-                
-                <div className="about-mv-card">
-                  <h4>
-                    <Compass size={16} style={{ color: 'var(--color-electric-blue)' }} />
-                    Our Vision
-                  </h4>
-                  <p>
-                    Empowering a community of fearless individuals to push boundaries, break limits, and unleash limitless potential.
-                  </p>
-                </div>
-              </motion.div>
-
-              <motion.div style={{ y: trainerFadeY, opacity: trainerFadeOpacity, marginTop: '8px' }}>
-                <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-block' }}>
-                  Start Now
-                </a>
-              </motion.div>
-            </div>
-
-            {/* Right Column: Creative scattered collage & Stats beneath it */}
-            <div className="trainer-media-col">
-              <motion.div 
-                className="about-collage-container"
-                style={{ y: trainerImageY, opacity: trainerFadeOpacity }}
-              >
-                <div className="about-collage-card card-img-1">
-                  <img src="https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80" alt="Athlonixx Training 1" />
-                </div>
-                <div className="about-collage-card card-img-2">
-                  <img src="https://images.unsplash.com/photo-1518611012118-696072aa579a?auto=format&fit=crop&w=600&q=80" alt="Athlonixx Training 2" />
-                </div>
-                <div className="about-collage-card card-img-3">
-                  <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?auto=format&fit=crop&w=600&q=80" alt="Athlonixx Training 3" />
-                </div>
-              </motion.div>
-              
-              <motion.div className="trainer-stats-row" style={{ y: trainerStatsY, opacity: trainerStatsOpacity }}>
-                <div className="trainer-stat-item">
-                  <div className="trainer-stat-num">
-                    <CountUp to="10" suffix="+" />
-                  </div>
-                  <div className="trainer-stat-label">Fitness Programs</div>
-                </div>
-                
-                <div className="trainer-stat-item">
-                  <div className="trainer-stat-num">
-                    <CountUp to="1500" suffix="+" />
-                  </div>
-                  <div className="trainer-stat-label">Happy Members</div>
-                </div>
-                
-                <div className="trainer-stat-item">
-                  <div className="trainer-stat-num">
-                    <CountUp to="5" suffix="+" />
-                  </div>
-                  <div className="trainer-stat-label">Class Instructors</div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Programs Section */}
-      <section id="services" className="services-scroll-container" ref={servicesRef}>
-        <div className="services-sticky-wrap">
-          <div className="container services-title-container">
-            <FadeUpReveal>
-              <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-                <span className="section-label-new">(Our Programs)</span>
-                <h2 className="section-title-new">Transformation <span className="accent-text-blue">Programs</span></h2>
-              </div>
-            </FadeUpReveal>
-          </div>
-
-          <div className="services-viewport">
-            <motion.div 
-              style={{ x }} 
-              ref={cardsContainerRef}
-              className="services-track"
+      {currentPage === 'home' ? (
+        <>
+          {/* Hero Section */}
+          <motion.section id="home" className="hero" style={{ y: heroY }}>
+            {/* Relatable background video loop */}
+            <motion.div
+              initial={{ scale: 1.12, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1.6, ease: [0.16, 1, 0.3, 1] }}
+              className="hero-bg-video-wrap"
             >
-              <div className="services-left-space" />
-              {services.map((service, index) => (
-                <motion.div 
-                  key={index}
-                  initial={isMobile ? { opacity: 0, y: 35 } : {}}
-                  whileInView={isMobile ? { opacity: 1, y: 0 } : {}}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.05 }}
-                  className="service-card-new"
-                >
-                  {/* Left Column: Text and Details (Blue Background) */}
-                  <div className="service-card-left">
-                    <h3 className="service-card-title">{service.title}</h3>
-                    <p className="service-card-desc">{service.desc}</p>
-                    
-                    <div className="service-card-meta">
-                      <div className="meta-row">
-                        <span className="meta-label">Level :</span>
-                        <span className="meta-val">{service.level}</span>
-                      </div>
-                      <div className="meta-row">
-                        <span className="meta-label">Duration :</span>
-                        <span className="meta-val">{service.duration}</span>
-                      </div>
-                    </div>
-
-                    <div className="service-card-tags">
-                      {service.tags.map((tag, tagIdx) => (
-                        <span key={tagIdx} className="service-card-tag">{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Right Column: Clickable Image (Links to Contact) */}
-                  <a 
-                    href="#contact" 
-                    onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} 
-                    className="service-card-right"
-                  >
-                    <img src={service.img} alt={service.title} />
-                  </a>
-                </motion.div>
-              ))}
-              <div className="services-right-space" />
+              <video
+                src={heroBgVideo}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="hero-bg-video"
+              />
             </motion.div>
-          </div>
-        </div>
-      </section>
+            <div className="hero-gradient-overlay"></div>
+            <div className="hero-grid"></div>
+            <div className="hero-gradient-line"></div>
+            <motion.div className="container">
+              <div className="hero-inner-layout">
+                {/* Left Column: Text Content */}
+                <div className="hero-left-col">
+                  {/* Main Headline */}
+                  <motion.h1
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ ...springHeavy, delay: 0.1 }}
+                    style={{ marginTop: '-20px' }}
+                  >
+                    Unleash the <br />
+                    <span className="accent-text">Athlete</span> <span className="hollow-text">In You</span>
+                  </motion.h1>
 
-      {/* BMI Calculator Section */}
-      <section id="bmi" className="rbmi-wrap">
-        <div className="container">
-          <div className="rbmi-head-icon" aria-hidden="true">
-            <span>🧮</span>
-          </div>
+                  {/* Sub-headline */}
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ ...springHeavy, delay: 0.2 }}
+                    className="hero-desc"
+                  >
+                    The biggest hybrid gym in Sarjapura.
+                  </motion.p>
 
-          <h2 className="rbmi-title">Athlonixx <span>BMI</span> Calculator</h2>
-          <p className="rbmi-sub">Discover your fitness baseline and start your transformation journey</p>
-
-          <div className="rbmi-card">
-            <div className="rbmi-grid">
-              <div className="rbmi-left">
-                <div className="rbmi-row2">
-                  <div className="rbmi-field">
-                    <label htmlFor="rbmi-height">Height (cm)</label>
-                    <input 
-                      id="rbmi-height" 
-                      type="number" 
-                      min="80" 
-                      max="250" 
-                      placeholder="170"
-                      value={bmiHeight}
-                      onChange={(e) => setBmiHeight(e.target.value)}
-                      className="form-control"
-                      style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
-                    />
-                  </div>
-                  <div className="rbmi-field">
-                    <label htmlFor="rbmi-weight">Weight (kg)</label>
-                    <input 
-                      id="rbmi-weight" 
-                      type="number" 
-                      min="20" 
-                      max="300" 
-                      placeholder="70"
-                      value={bmiWeight}
-                      onChange={(e) => setBmiWeight(e.target.value)}
-                      className="form-control"
-                      style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
-                    />
-                  </div>
+                  {/* CTA Buttons */}
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ ...springHeavy, delay: 0.3 }}
+                    className="hero-ctas"
+                  >
+                    <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="btn-primary">
+                      Start Now
+                    </a>
+                  </motion.div>
                 </div>
+              </div>
+            </motion.div>
+          </motion.section>
 
-                <div className="rbmi-field">
-                  <label htmlFor="rbmi-age">Age</label>
-                  <input 
-                    id="rbmi-age" 
-                    type="number" 
-                    min="10" 
-                    max="100" 
-                    placeholder="25"
-                    value={bmiAge}
-                    onChange={(e) => setBmiAge(e.target.value)}
-                    className="form-control"
-                    style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
-                  />
+          {/* About Us Section */}
+          <section id="about" className="section section-white" ref={trainerRef}>
+            <div className="container">
+              <div className="trainer-grid">
+                <div className="trainer-bio">
+                  <motion.h2 className="trainer-title" style={{ x: trainerSlideX, opacity: trainerOpacity }}>
+                    ATHLONIXX <br />
+                    <span className="hollow-text">FIT CLUB</span>
+                  </motion.h2>
+
+                  <motion.p className="about-intro-lead" style={{ y: trainerFadeY, opacity: trainerFadeOpacity }}>
+                    ATHLONIXX Fitclub Sarjapur is where elite fitness meets proven performance. We provide modern infrastructure, certified trainers, and goal-driven programs built to transform your strength and stamina.
+                  </motion.p>
+
+                  <motion.div
+                    className="about-mv-container"
+                    style={{ y: trainerFadeY, opacity: trainerFadeOpacity, display: 'flex', flexDirection: 'column', gap: '20px' }}
+                  >
+                    <div className="mv-tabs" style={{ display: 'flex', gap: '15px' }}>
+                      <button
+                        onClick={() => setActiveMvTab('mission')}
+                        style={{
+                          padding: '10px 24px',
+                          background: activeMvTab === 'mission' ? 'var(--color-electric-blue)' : '#fff',
+                          color: '#000',
+                          border: '2px solid var(--color-electric-blue)',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          transition: 'background-color 0.2s ease, border-color 0.2s ease'
+                        }}
+                      >
+                        OUR MISSION
+                      </button>
+                      <button
+                        onClick={() => setActiveMvTab('vision')}
+                        style={{
+                          padding: '10px 24px',
+                          background: activeMvTab === 'vision' ? 'var(--color-electric-blue)' : '#fff',
+                          color: '#000',
+                          border: '2px solid var(--color-electric-blue)',
+                          borderRadius: '8px',
+                          cursor: 'pointer',
+                          fontWeight: 'bold',
+                          transition: 'background-color 0.2s ease, border-color 0.2s ease'
+                        }}
+                      >
+                        OUR VISION
+                      </button>
+                    </div>
+
+                    <div style={{ minHeight: '130px' }}>
+                      <AnimatePresence mode="wait">
+                        {activeMvTab === 'mission' ? (
+                          <motion.div
+                            key="mission"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="about-mv-card"
+                            style={{ width: '100%' }}
+                          >
+                            <h4>
+                              <Target size={16} style={{ color: 'var(--color-electric-blue)' }} />
+                              Our Mission
+                            </h4>
+                            <p>
+                              To empower individuals to reach peak physical and mental performance through holistic fitness, expert care, and a supportive community.
+                            </p>
+                          </motion.div>
+                        ) : (
+                          <motion.div
+                            key="vision"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.25 }}
+                            className="about-mv-card"
+                            style={{ width: '100%' }}
+                          >
+                            <h4>
+                              <Compass size={16} style={{ color: 'var(--color-electric-blue)' }} />
+                              Our Vision
+                            </h4>
+                            <p>
+                              Empowering a community of fearless individuals to push boundaries, break limits, and unleash limitless potential.
+                            </p>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  </motion.div>
+
                 </div>
+              </div>
+            </div>
+          </section>
 
-                <button 
-                  id="rbmi-calc-btn" 
-                  className="rbmi-btn rbmi-btn-primary" 
-                  type="button"
-                  onClick={calculateBmi}
-                >
-                  Calculate BMI
-                </button>
+          {/* Programs Section */}
+          <section id="services" className="services-scroll-container" ref={servicesRef}>
+            <div className="services-sticky-wrap">
+              <div className="container services-title-container">
+                <FadeUpReveal>
+                  <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                    <h2 className="section-title-new">Our <span className="accent-text-blue">Programs</span></h2>
+                  </div>
+                </FadeUpReveal>
               </div>
 
-              <div className="rbmi-right">
-                {!bmiResult ? (
-                  <div className="rbmi-empty">
-                    <div className="rbmi-empty-icon">🧮</div>
-                    <p style={{ color: 'var(--color-medium-gray)' }}>Enter your details to calculate BMI</p>
-                  </div>
-                ) : (
-                  <div className="rbmi-result">
-                    <div className="rbmi-score" style={{ color: bmiResult.category.color }}>{bmiResult.score}</div>
-                    <div className="rbmi-badge" style={{ backgroundColor: bmiResult.category.color }}>{bmiResult.category.text}</div>
+              <div className="services-viewport">
+                <motion.div
+                  style={{ x }}
+                  ref={cardsContainerRef}
+                  className="services-track"
+                >
+                  <div className="services-left-space" />
+                  {services.map((service, index) => (
+                    <motion.div
+                      key={index}
+                      initial={isMobile ? { opacity: 0, y: 35 } : {}}
+                      whileInView={isMobile ? { opacity: 1, y: 0 } : {}}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.05 }}
+                      className="service-card-new"
+                    >
+                      {/* Left Column: Text and Details (Blue Background) */}
+                      <div className="service-card-left">
+                        <h3 className="service-card-title">{service.title}</h3>
+                        <p className="service-card-desc">{service.desc}</p>
 
-                    <div className="rbmi-stats">
-                      <div className="rbmi-stat">
-                        <small>Current</small>
-                        <strong>{bmiResult.current}</strong>
+                        <div className="service-card-meta">
+                          <div className="meta-row">
+                            <span className="meta-label">Level :</span>
+                            <span className="meta-val">{service.level}</span>
+                          </div>
+                          <div className="meta-row">
+                            <span className="meta-label">Duration :</span>
+                            <span className="meta-val">{service.duration}</span>
+                          </div>
+                        </div>
+
+                        <div className="service-card-tags">
+                          {service.tags.map((tag, tagIdx) => (
+                            <span key={tagIdx} className="service-card-tag">{tag}</span>
+                          ))}
+                        </div>
                       </div>
-                      <div className="rbmi-stat">
-                        <small>Ideal</small>
-                        <strong>18.5-25</strong>
+
+                      {/* Right Column: Clickable Image (Links to Contact) */}
+                      <a
+                        href="#contact"
+                        onClick={(e) => { e.preventDefault(); scrollTo('contact'); }}
+                        className="service-card-right"
+                      >
+                        <img src={service.img} alt={service.title} />
+                      </a>
+                    </motion.div>
+                  ))}
+                  <div className="services-right-space" />
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          {/* BMI Calculator Section */}
+          <section id="bmi" className="rbmi-wrap">
+            <div className="container">
+              <div className="rbmi-head-icon" aria-hidden="true">
+                <span>🧮</span>
+              </div>
+
+              <h2 className="rbmi-title">Athlonixx <span>BMI</span> Calculator</h2>
+              <p className="rbmi-sub">Discover your fitness baseline and start your transformation journey</p>
+
+              <div className="rbmi-card">
+                <div className="rbmi-grid">
+                  <div className="rbmi-left">
+                    <div className="rbmi-row2">
+                      <div className="rbmi-field">
+                        <label htmlFor="rbmi-height">Height (cm)</label>
+                        <input
+                          id="rbmi-height"
+                          type="number"
+                          min="80"
+                          max="250"
+                          placeholder="170"
+                          value={bmiHeight}
+                          onChange={(e) => setBmiHeight(e.target.value)}
+                          className="form-control"
+                          style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
+                        />
                       </div>
-                      <div className="rbmi-stat">
-                        <small>Goal</small>
-                        <strong>22.0</strong>
+                      <div className="rbmi-field">
+                        <label htmlFor="rbmi-weight">Weight (kg)</label>
+                        <input
+                          id="rbmi-weight"
+                          type="number"
+                          min="20"
+                          max="300"
+                          placeholder="70"
+                          value={bmiWeight}
+                          onChange={(e) => setBmiWeight(e.target.value)}
+                          className="form-control"
+                          style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
+                        />
                       </div>
                     </div>
+
+                    <div className="rbmi-field">
+                      <label htmlFor="rbmi-age">Age</label>
+                      <input
+                        id="rbmi-age"
+                        type="number"
+                        min="10"
+                        max="100"
+                        placeholder="25"
+                        value={bmiAge}
+                        onChange={(e) => setBmiAge(e.target.value)}
+                        className="form-control"
+                        style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
+                      />
+                    </div>
+
+                    <button
+                      id="rbmi-calc-btn"
+                      className="rbmi-btn rbmi-btn-primary"
+                      type="button"
+                      onClick={calculateBmi}
+                    >
+                      Calculate BMI
+                    </button>
+                  </div>
+
+                  <div className="rbmi-right">
+                    {!bmiResult ? (
+                      <div className="rbmi-empty">
+                        <div className="rbmi-empty-icon">🧮</div>
+                        <p style={{ color: 'var(--color-medium-gray)' }}>Enter your details to calculate BMI</p>
+                      </div>
+                    ) : (
+                      <div className="rbmi-result">
+                        <div className="rbmi-score" style={{ color: bmiResult.category.color }}>{bmiResult.score}</div>
+                        <div className="rbmi-badge" style={{ backgroundColor: bmiResult.category.color }}>{bmiResult.category.text}</div>
+
+                        <div className="rbmi-stats">
+                          <div className="rbmi-stat">
+                            <small>Current</small>
+                            <strong>{bmiResult.current}</strong>
+                          </div>
+                          <div className="rbmi-stat">
+                            <small>Ideal</small>
+                            <strong>18.5-25</strong>
+                          </div>
+                          <div className="rbmi-stat">
+                            <small>Goal</small>
+                            <strong>22.0</strong>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {bmiResult && (
+                  <div className="rbmi-consult show">
+                    <h3>Ready to Start Your RESET Journey?</h3>
+                    <p style={{ color: 'var(--color-light-gray)' }}>Get personalized guidance from our expert trainers</p>
+
+                    <div className="rbmi-row2">
+                      <div className="rbmi-field">
+                        <label htmlFor="rbmi-name">Full Name</label>
+                        <input
+                          id="rbmi-name"
+                          type="text"
+                          placeholder="Enter your name"
+                          value={bmiName}
+                          onChange={(e) => setBmiName(e.target.value)}
+                          className="form-control"
+                          style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
+                        />
+                      </div>
+                      <div className="rbmi-field">
+                        <label htmlFor="rbmi-phone">Phone Number</label>
+                        <input
+                          id="rbmi-phone"
+                          type="tel"
+                          placeholder="6360090000"
+                          value={bmiPhone}
+                          onChange={(e) => setBmiPhone(e.target.value)}
+                          className="form-control"
+                          style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
+                        />
+                      </div>
+                    </div>
+
+                    <button
+                      id="rbmi-wa-btn"
+                      className={`rbmi-btn rbmi-btn-success ${bmiName.trim().length >= 2 && bmiPhone.replace(/\D/g, '').length >= 10 ? 'enabled' : ''}`}
+                      type="button"
+                      disabled={!(bmiName.trim().length >= 2 && bmiPhone.replace(/\D/g, '').length >= 10)}
+                      onClick={handleWhatsappConsult}
+                    >
+                      Get Free Consultation
+                    </button>
                   </div>
                 )}
               </div>
             </div>
+          </section>
 
-            {bmiResult && (
-              <div className="rbmi-consult show">
-                <h3>Ready to Start Your RESET Journey?</h3>
-                <p style={{ color: 'var(--color-light-gray)' }}>Get personalized guidance from our expert trainers</p>
-
-                <div className="rbmi-row2">
-                  <div className="rbmi-field">
-                    <label htmlFor="rbmi-name">Full Name</label>
-                    <input 
-                      id="rbmi-name" 
-                      type="text" 
-                      placeholder="Enter your name"
-                      value={bmiName}
-                      onChange={(e) => setBmiName(e.target.value)}
-                      className="form-control"
-                      style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
-                    />
-                  </div>
-                  <div className="rbmi-field">
-                    <label htmlFor="rbmi-phone">Phone Number</label>
-                    <input 
-                      id="rbmi-phone" 
-                      type="tel" 
-                      placeholder="6360090000"
-                      value={bmiPhone}
-                      onChange={(e) => setBmiPhone(e.target.value)}
-                      className="form-control"
-                      style={{ background: 'rgba(7, 7, 8, 0.8)', border: '1px solid rgba(255, 255, 255, 0.1)', height: '56px', borderRadius: '12px', padding: '0 18px', color: 'white', width: '100%', fontSize: '18px' }}
-                    />
-                  </div>
+          {/* Membership Benefits Section */}
+          <section id="benefits" className="section section-white">
+            <div className="container">
+              <FadeUpReveal>
+                <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <h2 className="section-title-new">Unlock exclusive <span className="accent-text-blue">perks</span></h2>
+                  <p className="section-desc" style={{ margin: '0 auto' }}>
+                    Exclusive perks and premium features with your ATHLONIXX membership.
+                  </p>
                 </div>
+              </FadeUpReveal>
 
-                <button 
-                  id="rbmi-wa-btn" 
-                  className={`rbmi-btn rbmi-btn-success ${bmiName.trim().length >= 2 && bmiPhone.replace(/\D/g, '').length >= 10 ? 'enabled' : ''}`}
-                  type="button"
-                  disabled={!(bmiName.trim().length >= 2 && bmiPhone.replace(/\D/g, '').length >= 10)}
-                  onClick={handleWhatsappConsult}
-                >
-                  Get Free Consultation
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Membership Benefits Section */}
-      <section id="benefits" className="section section-white">
-        <div className="container">
-          <FadeUpReveal>
-            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <span className="section-label-new">(Membership Benefits)</span>
-              <h2 className="section-title-new">Unlock exclusive <span className="accent-text-blue">perks</span></h2>
-              <p className="section-desc" style={{ margin: '0 auto' }}>
-                Unlock exclusive perks and premium features with your RESET membership
-              </p>
-            </div>
-          </FadeUpReveal>
-
-          <div className="benefits-grid">
-            {benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ ...springScroll, delay: index * 0.05 }}
-                className="benefit-card"
-              >
-                <div className="benefit-card-number">
-                  {String(index + 1).padStart(2, '0')}
-                </div>
-                
-                <div className="benefit-icon-badge">
-                  {getBenefitIcon(index)}
-                </div>
-
-                <h3 className="benefit-card-title">
-                  {benefit.title}
-                </h3>
-                <p className="benefit-card-desc">
-                  {benefit.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Training Zones Section */}
-      <section id="areas" className="section training-areas-sticky-section">
-        <div className="container">
-          <div className="training-areas-grid">
-            {/* Left Column: Sticky Header */}
-            <div className="training-areas-left-col">
-              <span className="section-label-new">(Training Zones)</span>
-              <h2 className="section-title-new" style={{ fontSize: '64px', lineHeight: '1.0', marginBottom: '24px', textAlign: 'left' }}>
-                Training <br /><span className="accent-text-blue">Areas</span>
-              </h2>
-              <p className="section-desc" style={{ color: 'var(--color-light-gray)', maxWidth: '100%', fontSize: '16px', lineHeight: '1.6' }}>
-                Explore our specialized zones designed for every aspect of your fitness journey. With premium equipment and dedicated coaching, each area helps you unlock peak performance.
-              </p>
-            </div>
-
-            {/* Right Column: Sticky Scroll Cards */}
-            <div className="training-areas-right-col">
-              {trainingAreas.map((area, index) => (
-                <motion.div 
-                  key={index}
-                  initial={isMobile ? { opacity: 0, y: 35 } : {}}
-                  whileInView={isMobile ? { opacity: 1, y: 0 } : {}}
-                  viewport={{ once: true, margin: "-80px" }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="training-areas-card"
-                  style={{ zIndex: index + 1 }}
-                >
-                  {/* Card Background Image */}
-                  <div className="training-card-bg">
-                    <img src={area.img} alt={area.title} loading="lazy" />
-                    <div className="training-card-overlay"></div>
-                  </div>
-                  
-                  {/* Card Content */}
-                  <div className="training-card-content">
-                    <span className="training-card-num">ZONE {String(index + 1).padStart(2, '0')}</span>
-                    <div className="training-card-text">
-                      <h3 className="training-card-title">{area.title}</h3>
-                      <p className="training-card-desc">{area.desc}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Transformations Section */}
-      <section id="transformations" className="section transformations-section section-white">
-        <div className="container">
-          <FadeUpReveal>
-            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <span className="section-label">(Real Transformations)</span>
-              <h2 className="section-title">From Start to <span className="accent-text">Strong</span></h2>
-            </div>
-          </FadeUpReveal>
-        </div>
-
-        {/* 3D Comparison Carousel Container */}
-        <div className="transformations-carousel-viewport">
-          <ParticleBackground />
-          
-          {/* Left mask wrapper (Grayscale / Before) */}
-          <div className="carousel-mask left-mask">
-            <Carousel3D isGrayscale={true} />
-          </div>
-          
-          {/* Right mask wrapper (Color / After) */}
-          <div className="carousel-mask right-mask">
-            <Carousel3D isGrayscale={false} />
-          </div>
-
-          {/* Ambient Glow Backdrops */}
-          <div className="carousel-glow-container">
-            <div className="carousel-glow-circle circle-white"></div>
-            <div className="carousel-glow-circle circle-color-mid"></div>
-            <div className="carousel-glow-circle circle-color-end1"></div>
-            <div className="carousel-glow-circle circle-color-end2"></div>
-            <div className="carousel-glow-circle circle-color-end3"></div>
-            <div className="carousel-glow-circle circle-color-ambient"></div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="section">
-        <div className="container">
-          <FadeUpReveal>
-            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <span className="section-label">(What Clients Say)</span>
-              <h2 className="section-title">Real Results. <span className="accent-text">Real Feedback.</span></h2>
-            </div>
-          </FadeUpReveal>
-
-          <div className="testimonials-masonry">
-            {testimonials.map((item, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ ...springScroll, delay: index * 0.05 }}
-                className="testimonial-card"
-              >
-                <div className="testimonial-header">
-                  <img src={item.avatar} alt={item.name} className="testimonial-avatar" />
-                  <div className="testimonial-client-info">
-                    <span className="client-name">{item.name}</span>
-                    <span className="client-role">{item.role}</span>
-                  </div>
-                  <div className="testimonial-rating">
-                    {[...Array(item.rating)].map((_, i) => (
-                      <Star key={i} size={14} fill="currentColor" />
-                    ))}
-                  </div>
-                </div>
-                <p className="testimonial-body">"{item.text}"</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Event Calendar Section */}
-      <section id="events" className="reset-events-section">
-        <div className="reset-event-container">
-          <div className="reset-event-header">
-            <div className="reset-logo-circle">T</div>
-            <h2>YEAR 2026</h2>
-            <h3>EVENT CALENDAR</h3>
-          </div>
-
-          <div className="reset-event-list">
-            {events.map((event, idx) => (
-              <div className="reset-event-card" key={idx}>
-                <div className="reset-event-date">{event.date}</div>
-                <div className="reset-event-info">
-                  <h4>{event.title}</h4>
-                  {event.desc && <p style={{ color: 'var(--color-medium-gray)' }}>{event.desc}</p>}
-                </div>
-                <div className="reset-event-time">{event.time}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="reset-event-footer">
-            <h4>Share Your Upcoming Events!</h4>
-            <p>athlonixxfitclub@gmail.com | +91 8073 707 231</p>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section */}
-      <section id="faq" className="section section-white">
-        <div className="container">
-          <FadeUpReveal>
-            <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-              <span className="section-label">(FAQ)</span>
-              <h2 className="section-title">Frequently Asked <span className="accent-text">Questions</span></h2>
-              <p className="section-desc" style={{ margin: '0 auto' }}>
-                Find clear answers to the most common queries about RESET memberships and facilities.
-              </p>
-            </div>
-          </FadeUpReveal>
-
-          <FadeUpReveal delay={0.2}>
-            <div className="faq-list">
-              {faqs.map((faq, index) => {
-                const isOpen = activeFaq === index;
-                return (
-                  <div key={index} className={`faq-item ${isOpen ? 'open' : ''}`}>
-                    <div className="faq-header" onClick={() => setActiveFaq(isOpen ? null : index)}>
-                      <span className="faq-question">{faq.question}</span>
-                      <span className="faq-icon">
-                        <X size={18} style={{ transform: isOpen ? 'rotate(0deg)' : 'rotate(45deg)', transition: 'transform 0.2s ease' }} />
-                      </span>
-                    </div>
-                    
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div 
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: 'auto', opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3 }}
-                          className="faq-content"
-                        >
-                          <div className="faq-answer">{faq.answer}</div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                );
-              })}
-            </div>
-          </FadeUpReveal>
-        </div>
-      </section>
-
-      {/* Book Consultation Contact Form Section */}
-      <section id="contact" className="section">
-        <div className="container">
-          <div className="consultation-wrap">
-            <motion.div 
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ ...springScroll }}
-              className="consultation-info"
-            >
-              <span className="section-label">(Get in Touch)</span>
-              <h2 className="section-title" style={{ fontSize: '56px' }}>ATHLONIXX <span className="accent-text">FIT CLUB</span></h2>
-              <p className="section-desc" style={{ marginBottom: '24px' }}>
-                With premium equipment and a motivating environment, you are bound to achieve your fitness goals with an unmatched experience.
-              </p>
-              
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '32px' }} className="contact-details-list">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Phone size={18} style={{ color: 'var(--color-electric-blue)' }} />
-                  <a href="tel:+918073707231" style={{ fontSize: '15px' }}>+91 8073 707 231</a>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                  <Mail size={18} style={{ color: 'var(--color-electric-blue)' }} />
-                  <a href="mailto:athlonixxfitclub@gmail.com" style={{ fontSize: '15px' }}>athlonixxfitclub@gmail.com</a>
-                </div>
-                <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
-                  <MapPin size={18} style={{ color: 'var(--color-electric-blue)', marginTop: '4px', flexShrink: 0 }} />
-                  <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'var(--color-light-gray)' }}>
-                    Athlonixx Fit Club, Second Floor, Above Trends,<br/>
-                    Khata No 1293, Gram Panchayat, SY No 502-1,<br/>
-                    1 & 1293-2, Sarjapura, Sompura, Karnataka 562125
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-
-            <motion.div 
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ ...springScroll }}
-              className="consultation-form"
-            >
-              <AnimatePresence mode="wait">
-                {formSubmitted ? (
-                  <motion.div 
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    style={{ textAlign: 'center', padding: '40px 0' }}
+              <div className="benefits-grid">
+                {benefits.map((benefit, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ ...springScroll, delay: index * 0.05 }}
+                    className="benefit-card"
                   >
-                    <Check size={48} style={{ color: 'var(--color-electric-blue)', marginBottom: '16px' }} />
-                    <h3 style={{ fontFamily: 'var(--font-anton)', fontSize: '28px', marginBottom: '12px' }}>Request Received</h3>
-                    <p style={{ color: 'var(--color-light-gray)' }}>
-                      Thank you for reaching out! We will review your request and get back to you within 24 hours.
+                    <div className="benefit-card-number">
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+
+                    <div className="benefit-icon-badge">
+                      {getBenefitIcon(index)}
+                    </div>
+
+                    <h3 className="benefit-card-title">
+                      {benefit.title}
+                    </h3>
+                    <p className="benefit-card-desc">
+                      {benefit.desc}
                     </p>
                   </motion.div>
-                ) : (
-                  <form onSubmit={handleFormSubmit}>
-                    <div className="form-group">
-                      <label htmlFor="name">Name</label>
-                      <input type="text" id="name" required placeholder="John Doe" className="form-control" />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="email">Email Address</label>
-                      <input type="email" id="email" required placeholder="john@example.com" className="form-control" />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="phone">Phone / WhatsApp Number</label>
-                      <input type="tel" id="phone" required placeholder="+91 80737 07231" className="form-control" />
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="service">Service Interest</label>
-                      <select id="service" className="form-control">
-                        <option value="transformation">Transformation Programs</option>
-                        <option value="physiotherapy">Advanced Physiotherapy</option>
-                        <option value="sports-rehab">Sports Rehabilitation</option>
-                        <option value="hyrox">HYROX Performance</option>
-                        <option value="general-membership">General Gym Membership</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="goal">Primary Goal</label>
-                      <select id="goal" className="form-control">
-                        <option value="fitness">General Fitness</option>
-                        <option value="physio">Physiotherapy / Rehab</option>
-                        <option value="muscle">Muscle Gain</option>
-                        <option value="fatloss">Fat Loss</option>
-                        <option value="hyrox-train">HYROX Training</option>
-                      </select>
-                    </div>
-
-                    <div className="form-group">
-                      <label htmlFor="message">Message (Optional)</label>
-                      <textarea id="message" placeholder="Tell us a bit about your fitness goals..." className="form-control"></textarea>
-                    </div>
-
-                    <button type="submit" className="btn-primary" style={{ width: '100%' }}>
-                      Submit Inquiry
-                    </button>
-                  </form>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* Instagram Grid Section */}
-      <section className="section section-white" style={{ padding: '80px 0 120px 0' }}>
-        <Marquee text="ATHLONIXX FIT CLUB • UNLEASH THE ATHLETE IN YOU •" />
-        <div className="container" style={{ marginTop: '56px' }}>
-          <FadeUpReveal>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
-              <h3 style={{ fontFamily: 'var(--font-anton)', fontSize: '28px', textTransform: 'uppercase' }}>
-                Follow us on instagram
-              </h3>
-              <a 
-                href="https://www.instagram.com/athlonixxfitclub?igsh=aGViYmJtMDk4aW96" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex-center instagram-handle-link" 
-                style={{ gap: '8px', fontSize: '14px', fontWeight: '500' }}
-              >
-                <InstagramIcon size={18} />
-                @athlonixxfitclub
-              </a>
+                ))}
+              </div>
             </div>
-          </FadeUpReveal>
+          </section>
 
-          <div className="insta-grid">
-            {instagramPhotos.map((photo, index) => (
-              <motion.div 
-                key={index} 
-                className="insta-item"
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ ...springScroll, delay: index * 0.05 }}
-              >
-                <img src={photo} alt={`Instagram fitness photo ${index + 1}`} />
-                <div className="insta-overlay flex-center">
-                  <InstagramIcon size={28} style={{ color: 'var(--color-white)' }} />
+          {/* Training Zones Section */}
+          <section id="areas" className="section training-areas-sticky-section">
+            <div className="container">
+              <div className="training-areas-grid">
+                {/* Left Column: Sticky Header */}
+                <div className="training-areas-left-col">
+                  <h2 className="section-title-new" style={{ fontSize: '64px', lineHeight: '1.0', marginBottom: '24px', textAlign: 'left' }}>
+                    Training <br /><span className="accent-text-blue">Areas</span>
+                  </h2>
+                  <p className="section-desc" style={{ color: 'var(--color-light-gray)', maxWidth: '100%', fontSize: '16px', lineHeight: '1.6' }}>
+                    Explore our specialized zones designed for every aspect of your fitness journey. With premium equipment and dedicated coaching, each area helps you unlock peak performance.
+                  </p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                {/* Right Column: Sticky Scroll Cards */}
+                <div className="training-areas-right-col">
+                  {trainingAreas.map((area, index) => (
+                    <motion.div
+                      key={index}
+                      initial={isMobile ? { opacity: 0, y: 35 } : {}}
+                      whileInView={isMobile ? { opacity: 1, y: 0 } : {}}
+                      viewport={{ once: true, margin: "-80px" }}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
+                      className="training-areas-card"
+                      style={{ zIndex: index + 1 }}
+                    >
+                      {/* Card Background Image */}
+                      <div className="training-card-bg">
+                        <img src={area.img} alt={area.title} loading="lazy" />
+                        <div className="training-card-overlay"></div>
+                      </div>
+
+                      {/* Card Content */}
+                      <div className="training-card-content">
+                        <span className="training-card-num">ZONE {String(index + 1).padStart(2, '0')}</span>
+                        <div className="training-card-text">
+                          <h3 className="training-card-title">{area.title}</h3>
+                          <p className="training-card-desc">{area.desc}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Transformations Section */}
+          <section id="transformations" className="section transformations-section">
+            <div className="container">
+              <FadeUpReveal>
+                <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <span className="section-label">(Real Athletes)</span>
+                  <h2 className="section-title">From Start to <span className="accent-text">Strong</span></h2>
+                </div>
+              </FadeUpReveal>
+            </div>
+
+            {/* 3D Comparison Carousel Container */}
+            <div className="transformations-carousel-viewport">
+              <ParticleBackground />
+
+              {/* Left mask wrapper (Grayscale / Before) */}
+              <div className="carousel-mask left-mask">
+                <Carousel3D isGrayscale={true} />
+              </div>
+
+              {/* Right mask wrapper (Color / After) */}
+              <div className="carousel-mask right-mask">
+                <Carousel3D isGrayscale={false} />
+              </div>
+
+              {/* Ambient Glow Backdrops */}
+              <div className="carousel-glow-container">
+                <div className="carousel-glow-circle circle-white"></div>
+                <div className="carousel-glow-circle circle-color-mid"></div>
+                <div className="carousel-glow-circle circle-color-end1"></div>
+                <div className="carousel-glow-circle circle-color-end2"></div>
+                <div className="carousel-glow-circle circle-color-end3"></div>
+                <div className="carousel-glow-circle circle-color-ambient"></div>
+              </div>
+            </div>
+          </section>
+
+          {/* Testimonials Section */}
+          <section id="testimonials" className="section">
+            <div className="container">
+              <FadeUpReveal>
+                <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+                  <span className="section-label">(What Clients Say)</span>
+                  <h2 className="section-title">Real Results. <span className="accent-text">Real Feedback.</span></h2>
+                </div>
+              </FadeUpReveal>
+
+              <div className="testimonials-masonry">
+                {testimonials.map((item, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ ...springScroll, delay: index * 0.05 }}
+                    className="testimonial-card"
+                  >
+                    <div className="testimonial-header">
+                      <img src={item.avatar} alt={item.name} className="testimonial-avatar" />
+                      <div className="testimonial-client-info">
+                        <span className="client-name">{item.name}</span>
+                        <span className="client-role">{item.role}</span>
+                      </div>
+                      <div className="testimonial-rating">
+                        {[...Array(item.rating)].map((_, i) => (
+                          <Star key={i} size={14} fill="currentColor" />
+                        ))}
+                      </div>
+                    </div>
+                    <p className="testimonial-body">"{item.text}"</p>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Event Calendar Section */}
+          <section id="events" className="reset-events-section">
+            <div className="reset-event-container">
+              <div className="reset-event-header">
+                <div className="reset-logo-circle">T</div>
+                <h2>YEAR 2026</h2>
+                <h3>EVENT CALENDAR</h3>
+              </div>
+
+              <div className="reset-event-list" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+                <span style={{ fontSize: '2.5rem', fontWeight: '800', letterSpacing: '2px', color: 'var(--color-neon-yellow, #e4ff00)' }}>
+                  COMING SOON !!!
+                </span>
+              </div>
+            </div>
+          </section>
+
+          {/* FAQ Section */}
+          <section id="faq" className="section section-white">
+            <div className="container">
+              <FadeUpReveal>
+                <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+                  <span className="section-label">(FAQ)</span>
+                  <h2 className="section-title">Frequently Asked <span className="accent-text">Questions</span></h2>
+                  <p className="section-desc" style={{ margin: '0 auto' }}>
+                    Find clear answers to the most common queries about RESET memberships and facilities.
+                  </p>
+                </div>
+              </FadeUpReveal>
+
+              <FadeUpReveal delay={0.2}>
+                <div className="faq-list">
+                  {faqs.map((faq, index) => {
+                    const isOpen = activeFaq === index;
+                    return (
+                      <div key={index} className={`faq-item ${isOpen ? 'open' : ''}`}>
+                        <div className="faq-header" onClick={() => setActiveFaq(isOpen ? null : index)}>
+                          <span className="faq-question">{faq.question}</span>
+                          <span className="faq-icon">
+                            <X size={18} style={{ transform: isOpen ? 'rotate(0deg)' : 'rotate(45deg)', transition: 'transform 0.2s ease' }} />
+                          </span>
+                        </div>
+
+                        <AnimatePresence initial={false}>
+                          {isOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="faq-content"
+                            >
+                              <div className="faq-answer">{faq.answer}</div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
+                    );
+                  })}
+                </div>
+              </FadeUpReveal>
+            </div>
+          </section>
+
+          {/* Book Consultation Contact Form Section */}
+          <section id="contact" className="section">
+            <div className="container">
+              <div className="consultation-wrap">
+                <motion.div
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ ...springScroll }}
+                  className="consultation-info"
+                >
+                  <span className="section-label">(Get in Touch)</span>
+                  <h2 className="section-title" style={{ fontSize: '56px' }}>ATHLONIXX <span className="accent-text">FIT CLUB</span></h2>
+                  <p className="section-desc" style={{ marginBottom: '24px' }}>
+                    With premium equipment and a motivating environment, you are bound to achieve your fitness goals with an unmatched experience.
+                  </p>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', marginTop: '32px' }} className="contact-details-list">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <Phone size={18} style={{ color: 'var(--color-electric-blue)' }} />
+                      <a href="tel:+918073707231" style={{ fontSize: '15px' }}>+91 8073 707 231</a>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                      <Mail size={18} style={{ color: 'var(--color-electric-blue)' }} />
+                      <a href="mailto:athlonixxfitclub@gmail.com" style={{ fontSize: '15px' }}>athlonixxfitclub@gmail.com</a>
+                    </div>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '12px' }}>
+                      <MapPin size={18} style={{ color: 'var(--color-electric-blue)', marginTop: '4px', flexShrink: 0 }} />
+                      <span style={{ fontSize: '14px', lineHeight: '1.5', color: 'var(--color-light-gray)' }}>
+                        Athlonixx Fit Club, Second Floor, Above Trends,<br />
+                        Khata No 1293, Gram Panchayat, SY No 502-1,<br />
+                        1 & 1293-2, Sarjapura, Sompura, Karnataka 562125
+                      </span>
+                    </div>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ ...springScroll }}
+                  className="consultation-form"
+                >
+                  <AnimatePresence mode="wait">
+                    {formSubmitted ? (
+                      <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        style={{ textAlign: 'center', padding: '40px 0' }}
+                      >
+                        <Check size={48} style={{ color: 'var(--color-electric-blue)', marginBottom: '16px' }} />
+                        <h3 style={{ fontFamily: 'var(--font-anton)', fontSize: '28px', marginBottom: '12px' }}>Request Received</h3>
+                        <p style={{ color: 'var(--color-light-gray)' }}>
+                          Thank you for reaching out! We will review your request and get back to you within 24 hours.
+                        </p>
+                      </motion.div>
+                    ) : (
+                      <form onSubmit={handleFormSubmit}>
+                        <div className="form-group">
+                          <label htmlFor="name">Name</label>
+                          <input type="text" id="name" required placeholder="John Doe" className="form-control" />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="email">Email Address</label>
+                          <input type="email" id="email" required placeholder="john@example.com" className="form-control" />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="phone">Phone / WhatsApp Number</label>
+                          <input type="tel" id="phone" required placeholder="+91 80737 07231" className="form-control" />
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="service">Service Interest</label>
+                          <select id="service" className="form-control">
+                            <option value="transformation">Transformation Programs</option>
+                            <option value="physiotherapy">Advanced Physiotherapy</option>
+                            <option value="sports-rehab">Sports Rehabilitation</option>
+                            <option value="hybrid">Hybrid Training Program</option>
+                            <option value="general-membership">General Gym Membership</option>
+                          </select>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="goal">Primary Goal</label>
+                          <select id="goal" className="form-control">
+                            <option value="fitness">General Fitness</option>
+                            <option value="physio">Physiotherapy / Rehab</option>
+                            <option value="muscle">Muscle Gain</option>
+                            <option value="fatloss">Fat Loss</option>
+                            <option value="hybrid-train">Hybrid Training</option>
+                          </select>
+                        </div>
+
+                        <div className="form-group">
+                          <label htmlFor="message">Message (Optional)</label>
+                          <textarea id="message" placeholder="Tell us a bit about your fitness goals..." className="form-control"></textarea>
+                        </div>
+
+                        <button type="submit" className="btn-primary" style={{ width: '100%' }}>
+                          Submit Inquiry
+                        </button>
+                      </form>
+                    )}
+                  </AnimatePresence>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+
+          {/* Instagram Grid Section */}
+          <section className="section section-white" style={{ padding: '80px 0 120px 0' }}>
+            <Marquee text="ATHLONIXX FIT CLUB • UN THE ATHLETE IN YOU •" />
+            <div className="container" style={{ marginTop: '56px' }}>
+              <FadeUpReveal>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '32px' }}>
+                  <h3 style={{ fontFamily: 'var(--font-anton)', fontSize: '28px', textTransform: 'uppercase' }}>
+                    Follow us on instagram
+                  </h3>
+                  <a
+                    href="https://www.instagram.com/athlonixxfitclub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-center instagram-handle-link"
+                    style={{ gap: '8px', fontSize: '14px', fontWeight: '500' }}
+                  >
+                    <InstagramIcon size={18} />
+                    @athlonixxfitclub
+                  </a>
+                </div>
+              </FadeUpReveal>
+
+              <div className="insta-grid">
+                {instagramPhotos.map((photo, index) => (
+                  <motion.a
+                    key={index}
+                    href="https://www.instagram.com/athlonixxfitclub"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="insta-item"
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ ...springScroll, delay: index * 0.05 }}
+                  >
+                    <img src={photo} alt={`Instagram fitness photo ${index + 1}`} />
+                    <div className="insta-overlay flex-center">
+                      <InstagramIcon size={28} style={{ color: 'var(--color-white)' }} />
+                    </div>
+                  </motion.a>
+                ))}
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          {currentPage === 'terms' && <TermsAndConditions />}
+          {currentPage === 'privacy' && <PrivacyPolicy />}
+          {currentPage === 'cancellation' && <CancellationPolicy />}
+          {currentPage === 'refund' && <RefundPolicy />}
+        </>
+      )}
+
+      {/* Bottom Call to Action Section */}
+      <section style={{ padding: '120px 20px', textAlign: 'center', backgroundColor: '#050505', borderTop: '1px solid #1a1a1a' }}>
+        <div className="container">
+          <h2 style={{ fontSize: 'clamp(2rem, 5vw, 4rem)', fontWeight: '800', lineHeight: '1.2', margin: 0, color: '#ffffff' }}>
+            It's time to take your fitness to the next level at{' '}
+            <a
+              href="https://wa.me/918073707231"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--color-neon-yellow)',
+                textDecoration: 'none',
+                display: 'inline-block',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.textShadow = '0 0 15px rgba(220, 255, 0, 0.5)';
+                e.currentTarget.style.transform = 'scale(1.03)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'var(--color-neon-yellow)';
+                e.currentTarget.style.textShadow = 'none';
+                e.currentTarget.style.transform = 'scale(1)';
+              }}
+            >
+              Athlonixx.
+            </a>
+          </h2>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="footer">
+      <footer className="footer" style={{ backgroundColor: '#000000', borderTop: '1.5px solid #111111', padding: '80px 0 40px 0' }}>
         <div className="container">
-          <div className="footer-top">
-            <div className="footer-brand">
-              <a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="logo" style={{ display: 'inline-block', marginBottom: '16px' }}>
-                <img src="/logo.png" alt="Athlonixx Fit Club" style={{ height: '96px', width: 'auto', display: 'block' }} />
+          <div className="footer-top" style={{ display: 'grid', gridTemplateColumns: '1.2fr 0.8fr', gap: '80px', marginBottom: '60px' }}>
+            {/* Left Section */}
+            <div className="footer-brand" style={{ display: 'flex', flexDirection: 'column', gap: '28px', alignItems: 'flex-start' }}>
+              <a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="logo" style={{ display: 'inline-block' }}>
+                <img src="/logo.png" alt="Athlonixx Fit Club" style={{ height: '110px', width: 'auto', display: 'block' }} />
               </a>
-              <p className="footer-brand-desc">
-                ATHLONIXX Fitclub Sarjapur is where elite fitness meets proven performance. With modern infrastructure, certified trainers, and goal-driven programs designed to build strength and stamina.
+              <p className="footer-brand-desc" style={{ fontSize: '15px', lineHeight: '1.8', color: '#b3b3b3', maxWidth: '440px', margin: 0, fontWeight: '400' }}>
+                Premium fitness. Personalized training.<br />
+                Unmatched results. Join Athlonixx Fit Club<br />
+                and transform your life.
               </p>
+              <a href="https://wa.me/918073707231" target="_blank" rel="noopener noreferrer" className="btn-primary" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px', fontWeight: '700', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                JOIN NOW &rarr;
+              </a>
             </div>
 
-            <div className="footer-col">
-              <h4>Programs</h4>
-              <ul className="footer-links">
-                <li><a href="#home" onClick={(e) => { e.preventDefault(); scrollTo('home'); }} className="footer-link">Home</a></li>
-                <li><a href="#about" onClick={(e) => { e.preventDefault(); scrollTo('about'); }} className="footer-link">About Us</a></li>
-                <li><a href="#services" onClick={(e) => { e.preventDefault(); scrollTo('services'); }} className="footer-link">Programs</a></li>
-                <li><a href="#bmi" onClick={(e) => { e.preventDefault(); scrollTo('bmi'); }} className="footer-link">BMI Calculator</a></li>
-                <li><a href="#benefits" onClick={(e) => { e.preventDefault(); scrollTo('benefits'); }} className="footer-link">Benefits</a></li>
-              </ul>
-            </div>
+            {/* Right Section - Contact Card Container */}
+            <div className="footer-contact-card" style={{ border: '1px solid #222222', borderRadius: '12px', padding: '32px', backgroundColor: '#050505', display: 'flex', flexDirection: 'column', gap: '24px' }}>
+              {/* Follow Us Row */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: '#888888', textTransform: 'uppercase', letterSpacing: '1px' }}>Follow Us</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap' }}>
+                  <a href="https://www.instagram.com/athlonixxfitclub" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontSize: '14px', transition: 'opacity 0.2s' }} onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'} onMouseOut={(e) => e.currentTarget.style.opacity = '1'}>
+                    <InstagramIcon size={16} style={{ color: 'var(--color-neon-yellow, #e4ff00)' }} /> Instagram
+                  </a>
+                  <span style={{ color: '#333333' }}>|</span>
+                  <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontSize: '14px', transition: 'opacity 0.2s' }} onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'} onMouseOut={(e) => e.currentTarget.style.opacity = '1'}>
+                    <svg width="16" height="16" fill="var(--color-neon-yellow, #e4ff00)" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z" /></svg> Facebook
+                  </a>
+                  <span style={{ color: '#333333' }}>|</span>
+                  <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer" style={{ color: '#ffffff', display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none', fontSize: '14px', transition: 'opacity 0.2s' }} onMouseOver={(e) => e.currentTarget.style.opacity = '0.8'} onMouseOut={(e) => e.currentTarget.style.opacity = '1'}>
+                    <svg width="16" height="16" fill="var(--color-neon-yellow, #e4ff00)" viewBox="0 0 24 24"><path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.508a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.002 3.002 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" /></svg> YouTube
+                  </a>
+                </div>
+              </div>
 
-            <div className="footer-col">
-              <h4>Resources</h4>
-              <ul className="footer-links">
-                <li><a href="#areas" onClick={(e) => { e.preventDefault(); scrollTo('areas'); }} className="footer-link">Training Zones</a></li>
-                <li><a href="#events" onClick={(e) => { e.preventDefault(); scrollTo('events'); }} className="footer-link">Events</a></li>
-                <li><a href="#testimonials" onClick={(e) => { e.preventDefault(); scrollTo('testimonials'); }} className="footer-link">Testimonials</a></li>
-                <li><a href="#faq" onClick={(e) => { e.preventDefault(); scrollTo('faq'); }} className="footer-link">FAQ</a></li>
-              </ul>
-            </div>
+              <hr style={{ border: 'none', borderTop: '1px solid #1a1a1a', margin: 0 }} />
 
-            <div className="footer-col">
-              <h4>Contact</h4>
-              <div className="footer-contact-info">
-                <div className="footer-contact-item">
-                  <Phone size={16} style={{ color: 'var(--color-electric-blue)' }} />
-                  <a href="tel:+918073707231">+91 8073 707 231</a>
-                </div>
-                <div className="footer-contact-item">
-                  <Mail size={16} style={{ color: 'var(--color-electric-blue)' }} />
-                  <a href="mailto:athlonixxfitclub@gmail.com">athlonixxfitclub@gmail.com</a>
-                </div>
-                <div className="footer-contact-item">
-                  <MapPin size={16} style={{ color: 'var(--color-electric-blue)' }} />
-                  <span>Sarjapura, Sompura, Bangalore</span>
-                </div>
+              {/* Email Row */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: '#888888', textTransform: 'uppercase', letterSpacing: '1px' }}>Email</span>
+                <a href="mailto:info@athlonixxfitclub.com" style={{ color: '#ffffff', textDecoration: 'none', fontSize: '15px', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = 'var(--color-neon-yellow, #e4ff00)'} onMouseOut={(e) => e.target.style.color = '#ffffff'}>
+                  info@athlonixxfitclub.com
+                </a>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid #1a1a1a', margin: 0 }} />
+
+              {/* Phone Row */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: '#888888', textTransform: 'uppercase', letterSpacing: '1px' }}>Phone</span>
+                <a href="tel:+918073707231" style={{ color: '#ffffff', textDecoration: 'none', fontSize: '15px', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = 'var(--color-neon-yellow, #e4ff00)'} onMouseOut={(e) => e.target.style.color = '#ffffff'}>
+                  +91 8073707231
+                </a>
+              </div>
+
+              <hr style={{ border: 'none', borderTop: '1px solid #1a1a1a', margin: 0 }} />
+
+              {/* Address Row */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                <span style={{ fontSize: '12px', fontWeight: '700', color: '#888888', textTransform: 'uppercase', letterSpacing: '1px' }}>Address</span>
+                <span style={{ color: '#ffffff', fontSize: '14px', lineHeight: '1.5' }}>
+                  Athlonixx Fit Club<br />
+                  Second Floor, Above Trends<br />
+                  Sarjapura, Sompura<br />
+                  Karnataka 562125
+                </span>
               </div>
             </div>
           </div>
 
+          {/* Bottom Row */}
           <div className="footer-bottom">
-            <p className="footer-copy">
-              &copy; Copyright {new Date().getFullYear()}. All Rights Reserved by Athlonixx Fit Club.
-            </p>
-            <p className="footer-credits">
-              Created by Athlonixx Fit Club
+            <div className="footer-bottom-links">
+              <a href="#privacy" onClick={(e) => { e.preventDefault(); setCurrentPage('privacy'); }} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = 'inherit'}>Privacy Policy</a>
+              <span style={{ color: '#222222' }}>|</span>
+              <a href="#terms" onClick={(e) => { e.preventDefault(); setCurrentPage('terms'); }} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = 'inherit'}>Terms & Conditions</a>
+              <span style={{ color: '#222222' }}>|</span>
+              <a href="#refund" onClick={(e) => { e.preventDefault(); setCurrentPage('refund'); }} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = 'inherit'}>Refund Policy</a>
+              <span style={{ color: '#222222' }}>|</span>
+              <a href="#cancellation" onClick={(e) => { e.preventDefault(); setCurrentPage('cancellation'); }} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = 'inherit'}>Cancellation Policy</a>
+              <span style={{ color: '#222222' }}>|</span>
+              <a href="#contact" onClick={(e) => { e.preventDefault(); scrollTo('contact'); }} style={{ color: 'inherit', textDecoration: 'none', transition: 'color 0.2s' }} onMouseOver={(e) => e.target.style.color = '#ffffff'} onMouseOut={(e) => e.target.style.color = 'inherit'}>Contact</a>
+            </div>
+            <p className="footer-copy" style={{ margin: 0 }}>
+              &copy; {new Date().getFullYear()} <span style={{ color: 'var(--color-neon-yellow, #e4ff00)' }}>Athlonixx Fit Club</span>. All rights reserved.
             </p>
           </div>
         </div>
@@ -1711,14 +1778,14 @@ function App() {
       {/* Hero Video Lightbox popup */}
       <AnimatePresence>
         {isLightboxOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="video-lightbox-overlay"
             onClick={() => setIsLightboxOpen(false)}
           >
-            <motion.div 
+            <motion.div
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
@@ -1726,13 +1793,13 @@ function App() {
               className="video-lightbox-content"
               onClick={(e) => e.stopPropagation()}
             >
-              <button 
+              <button
                 className="video-lightbox-close"
                 onClick={() => setIsLightboxOpen(false)}
               >
                 <X size={24} />
               </button>
-              <video 
+              <video
                 src="https://framerusercontent.com/assets/KtybQrIxM8KXwOcvzbAyDnH8o.mp4"
                 poster="https://framerusercontent.com/assets/MLWPbW1dUQawJLhhun3dBwpgJak.mp4"
                 autoPlay
@@ -1746,6 +1813,35 @@ function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Floating Social Icons */}
+      <div style={{
+        position: 'fixed',
+        bottom: '60px',
+        right: '18px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '14px',
+        zIndex: 9999
+      }}>
+        <a
+          href="https://www.instagram.com/athlonixxfitclub"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="floating-social-btn ig"
+        >
+          <InstagramBrandIcon size={38} />
+        </a>
+
+        <a
+          href="https://wa.me/918073707231"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="floating-social-btn wa"
+        >
+          <WhatsAppBrandIcon size={38} />
+        </a>
+      </div>
     </>
   );
 }
